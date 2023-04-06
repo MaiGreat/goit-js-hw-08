@@ -2,8 +2,7 @@ import throttle from "lodash.throttle";
 
 const KEYFEEDBACK = "feedback-form-state";
 
-const formaData = {};
-
+let formaData = {};
 
 const refs = {
     form: document.querySelector('.feedback-form'),
@@ -11,15 +10,13 @@ const refs = {
 }
 
 refs.form.addEventListener('submit', onFormSubmit);
-// refs.textarea.addEventListener('input', throttle(onTextInput, 500));
 refs.form.addEventListener('input', throttle(onTextInput, 500))
 installDataFromStorage()
 
 function onTextInput(event) {
-    const text = event.target.value;
-    formaData[event.target.name] = text;
-    const formDataJSON = localStorage.setItem(KEYFEEDBACK, JSON.stringify(formaData));
-
+    const inputText = event.target.value;
+    formaData[event.target.name] = inputText;
+    localStorage.setItem(KEYFEEDBACK, JSON.stringify(formaData));
 }
 
 function onFormSubmit(evt) {
@@ -29,13 +26,13 @@ function onFormSubmit(evt) {
 }
 
 function installDataFromStorage() {
-    const saveText = JSON.parse(localStorage.getItem(KEYFEEDBACK));
-    if (saveText) {
-        // console.log(saveText);
-        refs.form.value = saveText;
-        // console.log(refs.form.value)
+    const dataFromStorage = JSON.parse(localStorage.getItem(KEYFEEDBACK));
+    if (dataFromStorage) {
+        console.log(dataFromStorage);
+        refs.form.elements.email.value = dataFromStorage.email;
+        refs.form.elements.message.value = dataFromStorage.message;
+        formaData.email = dataFromStorage.email;
+        formaData.message = dataFromStorage.message;
     }  
     // refs.form.elements.message.value = 123;
 }
-
-
