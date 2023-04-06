@@ -4,28 +4,22 @@ const KEYFEEDBACK = "feedback-form-state";
 
 const formaData = {};
 
+
 const refs = {
     form: document.querySelector('.feedback-form'),
     textarea: document.querySelector('textarea'),
-    // input: document.querySelector('iput')
 }
 
-console.log(refs);
-
 refs.form.addEventListener('submit', onFormSubmit);
-refs.textarea.addEventListener('input', throttle(onTextInput, 500));
-textarea()
-
-refs.form.addEventListener('input', evt => {
-    formaData[evt.target.name] = evt.target.value;
-    console.log(formaData)
-})
+// refs.textarea.addEventListener('input', throttle(onTextInput, 500));
+refs.form.addEventListener('input', throttle(onTextInput, 500))
+installDataFromStorage()
 
 function onTextInput(event) {
     const text = event.target.value;
-    console.log(text);
+    formaData[event.target.name] = text;
+    const formDataJSON = localStorage.setItem(KEYFEEDBACK, JSON.stringify(formaData));
 
-    localStorage.setItem(KEYFEEDBACK, text)
 }
 
 function onFormSubmit(evt) {
@@ -34,11 +28,14 @@ function onFormSubmit(evt) {
     localStorage.removeItem(KEYFEEDBACK)
 }
 
-function textarea() {
-    const saveText = localStorage.getItem(KEYFEEDBACK);
+function installDataFromStorage() {
+    const saveText = JSON.parse(localStorage.getItem(KEYFEEDBACK));
     if (saveText) {
-        console.log(saveText);
-        refs.textarea.value = saveText;
-    }
-    
+        // console.log(saveText);
+        refs.form.value = saveText;
+        // console.log(refs.form.value)
+    }  
+    // refs.form.elements.message.value = 123;
 }
+
+

@@ -11,8 +11,6 @@ console.log(galleryItems);
 const gallery = document.querySelector('.gallery');
 const createHtmlLi = createGalleryImage(galleryItems);
 
-console.log(gallery)
-
 function createGalleryImage(images) {
     return images
         .map(({ preview, original, description }) => {
